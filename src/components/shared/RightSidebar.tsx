@@ -1,20 +1,20 @@
 "use client";
-import { sidebarLinks } from "@/constants";
-import { cn } from "@/lib/utils";
-import { SignOutButton, SignedIn } from "@clerk/clerk-react";
-import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { memo } from "react";
+import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs";
+import { sidebarLinks } from "@/constants";
+import { memo } from "react";
 
-const Leftsidebar = () => {
+const RightSidebar = () => {
   const pathname = usePathname();
+
   const { userId } = useAuth();
+
   return (
-    <section className="custom-scrollbar leftsidebar">
+    <section className="custom-scrollbar leftsidebar w-[250px]">
       <div className="flex w-full flex-1 flex-col gap-6 px-6">
-        {sidebarLinks.map((link) => {
+        {/* {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
@@ -25,7 +25,7 @@ const Leftsidebar = () => {
             <Link
               href={link.route}
               key={link.label}
-              className={cn(`leftsidebar_link`, isActive && "bg-primary-500 ")}
+              className={`leftsidebar_link ${isActive && "bg-primary-500 "}`}
             >
               <Image
                 src={link.imgURL}
@@ -37,10 +37,10 @@ const Leftsidebar = () => {
               <p className="text-light-1 max-lg:hidden">{link.label}</p>
             </Link>
           );
-        })}
+        })} */}
       </div>
 
-      <div className="mt-10 px-6">
+      {/* <div className="mt-10 px-6">
         <SignedIn>
           <SignOutButton
             signOutOptions={{
@@ -59,9 +59,9 @@ const Leftsidebar = () => {
             </div>
           </SignOutButton>
         </SignedIn>
-      </div>
+      </div> */}
     </section>
   );
 };
 
-export default memo(Leftsidebar);
+export default memo(RightSidebar);

@@ -1,11 +1,10 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
+import { memo } from "react";
 
 function Bottombar() {
   const pathname = usePathname();
@@ -43,4 +42,4 @@ function Bottombar() {
   );
 }
 
-export default Bottombar;
+export default memo(Bottombar);
