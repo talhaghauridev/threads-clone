@@ -15,7 +15,10 @@
   justify-content: center;
   z-index: 30;
 
+  
+
 }
+
 @layer components {
   /* main */
   .main-container {
