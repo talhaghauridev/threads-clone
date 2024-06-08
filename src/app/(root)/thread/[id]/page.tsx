@@ -25,6 +25,7 @@ const page = async ({ params }: Params) => {
       <div>
         <ThreadCard
           id={thread._id}
+          userId={userInfo._id}
           currentUserId={user.id}
           parentId={thread.parentId}
           content={thread.text}
@@ -32,6 +33,7 @@ const page = async ({ params }: Params) => {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          likes={thread.likes}
         />
       </div>
 
@@ -49,12 +51,14 @@ const page = async ({ params }: Params) => {
             key={childItem._id}
             id={childItem._id}
             currentUserId={user.id}
+            userId={userInfo._id}
             parentId={childItem.parentId}
             content={childItem.text}
             author={childItem.author}
             community={childItem.community}
             createdAt={childItem.createdAt}
             comments={childItem.children}
+            likes={childItem.likes}
             isComment
           />
         ))}

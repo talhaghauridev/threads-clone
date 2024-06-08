@@ -163,3 +163,47 @@ export async function addCommentToThread(
     throw new Error("Unable to add comment");
   }
 }
+
+export async function likeThread(
+  userId: string,
+  threadId: string,
+  path: string
+) {
+  try {
+    const thread = await Thread.findById(threadId);
+    if (!thread) throw new Error("Thread not found");
+
+    if (!thread.likes.includes(userId)) {
+      thread.likes.push(userId);
+      await thread.save();
+      revalidatePath(path);
+    }
+
+    return { likes: thread.likes.map((like: string) => like.toString()) };
+  } catch (error: any) {
+    throw new Error(`Failed to like thread: ${error.message}`);
+  }
+}
+
+export async function unlikeThread(
+  userId: string,
+  threadId: string,
+  path: string
+) {
+  try {
+    const thread = await Thread.findById(threadId);
+    if (!thread) throw new Error("Thread not found");
+
+    if (thread.likes.includes(userId)) {
+      thread.likes = thread.likes.filter(
+        (id: string) => id.toString() !== userId.toString()
+      );
+      await thread.save();
+      revalidatePath(path);
+    }
+
+    return { likes: thread.likes.map((like: string) => like.toString()) };
+  } catch (error: any) {
+    throw new Error(`Failed to unlike thread: ${error.message}`);
+  }
+}

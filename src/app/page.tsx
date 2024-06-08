@@ -24,6 +24,7 @@ async function Home() {
               <ThreadCard
                 key={post._id}
                 id={post._id}
+                userId={userInfo._id}
                 currentUserId={user.id}
                 parentId={post.parentId}
                 content={post.text}
@@ -31,6 +32,7 @@ async function Home() {
                 community={post.community}
                 createdAt={post.createdAt}
                 comments={post.children}
+                likes={post.likes}
               />
             ))}
           </>

@@ -246,6 +246,8 @@ export async function updateCommunityInfo(
 }
 
 export async function deleteCommunity(communityId: string) {
+  console.log(communityId);
+  
   try {
     await connectToDB();
 

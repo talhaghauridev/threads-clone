@@ -1,13 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDateString } from "@/lib/utils";
+import LinkThread from "../forms/LinkThread";
 // import DeleteThread from "../forms/DeleteThread";
 
 interface Props {
   id: string;
+  userId?: string;
   currentUserId: string;
   parentId: string | null;
   content: string;
+  likes?: string[];
   author: {
     name: string;
     image: string;
@@ -27,7 +30,7 @@ interface Props {
   isComment?: boolean;
 }
 
-function ThreadCard({
+async function ThreadCard({
   id,
   currentUserId,
   parentId,
@@ -36,8 +39,12 @@ function ThreadCard({
   community,
   createdAt,
   comments,
+  likes = [],
   isComment,
+  userId,
 }: Props) {
+  console.log(userId);
+
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
@@ -70,13 +77,14 @@ function ThreadCard({
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
-                <Image
-                  src="/assets/heart-gray.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                {userId && (
+                  <LinkThread
+                    authorId={author.id.toString()}
+                    userId={userId.toString()}
+                    likes={likes.map((like) => like.toString())}
+                    threadId={id.toString()}
+                  />
+                )}
                 <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"

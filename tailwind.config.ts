@@ -196,7 +196,12 @@ module.exports = {
       screens: {
         xs: "400px",
       },
+
       keyframes: {
+        pulse: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.1)" },
+        },
         "accordion-down": {
           from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -207,6 +212,8 @@ module.exports = {
         },
       },
       animation: {
+        pulse: "pulse 0.5s ease-in-out",
+
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
