@@ -127,3 +127,27 @@ export async function fetchUsers({
     throw new Error("Unable to delete thread");
   }
 }
+
+export async function getActivity(userId: string) {
+  try {
+    await connectToDB();
+    const threads = await Thread.find({ author: userId });
+
+    const childThreadIds = threads.reduce((acc, curr) => {
+      return acc.concat(curr.children);
+    }, []);
+    
+    const replies = await Thread.find({
+      _id: { $in: childThreadIds },
+      author: { $ne: userId },
+    }).populate({
+      path: "author",
+      model: User,
+      select: "_id name image",
+    });
+
+    return replies;
+  } catch (error) {
+    throw new Error("Unable to delete thread");
+  }
+}

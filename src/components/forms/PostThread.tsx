@@ -1,28 +1,21 @@
 "use client";
-import { User } from "@/types";
-import React, { memo, useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UserType, UserValidation } from "@/lib/validations/user";
-import Image from "next/image";
-import { Textarea } from "../ui/textarea";
-import { useUploadThing } from "@/lib/uploadthing";
-import { isBase64Image } from "@/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
-import { updateUser } from "@/lib/actions/user.actions";
-import { ThreadType, ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
+import { ThreadType, ThreadValidation } from "@/lib/validations/thread";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+import { memo, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { Textarea } from "../ui/textarea";
+import { useOrganization } from "@clerk/nextjs";
 type PostThreadProps = {
   userId: string;
 };
@@ -30,7 +23,7 @@ type PostThreadProps = {
 const PostThread = ({ userId }: PostThreadProps) => {
   const router = useRouter();
   const pathname = usePathname();
-
+  const { organization } = useOrganization();
   const form = useForm<ThreadType>({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
@@ -45,11 +38,11 @@ const PostThread = ({ userId }: PostThreadProps) => {
         author: userId,
         path: pathname,
         text: values.thread,
-        communityId: null,
+        communityId: organization ? organization.id : null,
       });
       router.push("/");
     },
-    [router, pathname, createThread, userId]
+    [router, pathname, userId,organization]
   );
   return (
     <Form {...form}>
@@ -81,4 +74,4 @@ const PostThread = ({ userId }: PostThreadProps) => {
   );
 };
 
-export default PostThread;
+export default memo(PostThread);

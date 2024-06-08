@@ -31,7 +31,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         )}
       </>
     ),
-    [pathname]
+    [pathname, children]
   );
 };
 

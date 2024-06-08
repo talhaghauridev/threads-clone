@@ -67,7 +67,7 @@ const AccountProfile = ({ btnTitle, user }: AccountProfileProps) => {
         router.push("/");
       }
     },
-    [files, pathname, router, startUpload, updateUser, user.id]
+    [files, pathname, router, startUpload, user.id]
   );
 
   const handleImage = useCallback(

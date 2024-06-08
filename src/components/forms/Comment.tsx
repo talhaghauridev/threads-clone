@@ -19,7 +19,7 @@ import { Button } from "../ui/button";
 
 import { CommentValidation } from "@/lib/validations/thread";
 import { addCommentToThread } from "@/lib/actions/thread.actions";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 
 interface Props {
   threadId: string;
@@ -46,7 +46,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
     );
 
     form.reset();
-  },[form,pathname,currentUserId,addCommentToThread])
+  },[form,pathname,currentUserId,threadId])
 
   return (
     <Form {...form}>
@@ -85,4 +85,4 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
   );
 }
 
-export default Comment;
+export default memo(Comment);

@@ -49,22 +49,40 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 }
 
 export async function createThread({
-  author,
   text,
+  author,
   communityId,
   path,
 }: CreateThreadParams) {
   try {
     await connectToDB();
 
-    const thread = await Thread.create({ author, text, community: null });
-    await User.findByIdAndUpdate(author, { $push: { threads: thread._id } });
+    const communityIdObject = await Community.findOne(
+      { id: communityId },
+      { _id: 1 }
+    );
+
+    const createdThread = await Thread.create({
+      text,
+      author,
+      community: communityIdObject,
+    });
+
+    await User.findByIdAndUpdate(author, {
+      $push: { threads: createdThread._id },
+    });
+
+    if (communityIdObject) {
+      await Community.findByIdAndUpdate(communityIdObject, {
+        $push: { threads: createdThread._id },
+      });
+    }
+
     revalidatePath(path);
   } catch (error: any) {
     throw new Error(`Failed to create thread: ${error.message}`);
   }
 }
-
 export async function fetchThreadById(threadId: string) {
   try {
     await connectToDB();
@@ -109,7 +127,7 @@ export async function fetchThreadById(threadId: string) {
 export async function addCommentToThread(
   threadId: string,
   commentText: string,
-  userId: string, 
+  userId: string,
   path: string
 ) {
   await connectToDB();
@@ -145,4 +163,3 @@ export async function addCommentToThread(
     throw new Error("Unable to add comment");
   }
 }
-
