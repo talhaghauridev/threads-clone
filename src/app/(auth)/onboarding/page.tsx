@@ -1,4 +1,5 @@
 import AccountProfile from "@/components/forms/AccountProfile";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { User } from "@/types";
 import { currentUser } from "@clerk/nextjs/server";
 import { Metadata } from "next";
@@ -10,8 +11,7 @@ export const metadata: Metadata = {
 
 const page = async () => {
   const user = await currentUser();
-  const userInfo: any = {};
-  console.log(user);
+  const userInfo = await fetchUser(user?.id!);
 
   const userData: User = {
     id: user?.id!,

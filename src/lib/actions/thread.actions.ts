@@ -6,6 +6,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
 import Community from "../models/community.model";
+
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   await connectToDB();
   try {
@@ -144,3 +145,4 @@ export async function addCommentToThread(
     throw new Error("Unable to add comment");
   }
 }
+

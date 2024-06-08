@@ -11,7 +11,7 @@ async function Home() {
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
   const result = await fetchPosts(1, 10);
-
+  
   return (
     <section className="mt-9 flex flex-col gap-10">
       {result.posts.length === 0 ? (
