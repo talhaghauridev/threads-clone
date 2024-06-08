@@ -15,4 +15,11 @@ type UpdateUserParams = {
   image: string;
   path:string
 };
-export type { User, UpdateUserParams };
+
+type CreateThreadParams = {
+  text: string;
+  author: string;
+  communityId: string | null;
+  path:string
+}
+export type { User, UpdateUserParams,CreateThreadParams };
