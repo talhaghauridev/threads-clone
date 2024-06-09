@@ -7,7 +7,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import React from "react";
 type Params = {
   params: {
     id: string;
@@ -65,7 +64,7 @@ const page = async ({ params }: Params) => {
               <ThreadsTab
                 currentUserId={user.id}
                 accountId={userInfo.id}
-                userId= {userInfo._id}
+                userId={userInfo._id}
                 accountType="User"
               />
             </TabsContent>

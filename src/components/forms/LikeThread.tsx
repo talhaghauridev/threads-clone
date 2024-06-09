@@ -3,16 +3,16 @@ import { likeThread, unlikeThread } from "@/lib/actions/thread.actions";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { usePathname } from "next/navigation";
-import React, { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 
-type LinkThreadProps = {
+type LikeThreadProps = {
   userId: string;
   threadId: string;
   authorId: string;
   likes: string[];
 };
 
-const LinkThread = ({ userId, threadId, authorId, likes }: LinkThreadProps) => {
+const LikeThread = ({ userId, threadId, authorId, likes }: LikeThreadProps) => {
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,6 @@ const LinkThread = ({ userId, threadId, authorId, likes }: LinkThreadProps) => {
     setLoading(false);
   }, [pathname, userId, threadId]);
 
-  console.log(loading);
 
   return useMemo(
     () => (
@@ -76,4 +75,4 @@ const LinkThread = ({ userId, threadId, authorId, likes }: LinkThreadProps) => {
   );
 };
 
-export default memo(LinkThread);
+export default memo(LikeThread);

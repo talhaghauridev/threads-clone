@@ -1,26 +1,25 @@
 "use client";
-import { User } from "@/types";
-import React, { memo, useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UserType, UserValidation } from "@/lib/validations/user";
-import Image from "next/image";
-import { Textarea } from "../ui/textarea";
+import { updateUser } from "@/lib/actions/user.actions";
 import { useUploadThing } from "@/lib/uploadthing";
 import { isBase64Image } from "@/lib/utils";
+import { UserType, UserValidation } from "@/lib/validations/user";
+import { User } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { updateUser } from "@/lib/actions/user.actions";
+import React, { memo, useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Textarea } from "../ui/textarea";
 type AccountProfileProps = {
   user: User;
   btnTitle: string;
@@ -49,7 +48,6 @@ const AccountProfile = ({ btnTitle, user }: AccountProfileProps) => {
         const imageRes = await startUpload(files);
         if (imageRes && imageRes[0].url) {
           values.profile_photo = imageRes[0].url;
-          console.log(imageRes[0]);
         }
       }
 

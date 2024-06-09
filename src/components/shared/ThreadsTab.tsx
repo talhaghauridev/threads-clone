@@ -52,9 +52,6 @@ async function ThreadsTab({
   } else {
     result = await fetchUserPosts(accountId);
   }
-  console.log(accountId.toString());
-
-  console.log(result);
 
   if (!result) {
     redirect("/");

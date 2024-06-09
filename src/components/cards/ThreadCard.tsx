@@ -1,8 +1,8 @@
+import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { formatDateString } from "@/lib/utils";
-import LinkThread from "../forms/LinkThread";
-// import DeleteThread from "../forms/DeleteThread";
+import DeleteThread from "../forms/DeleteThread";
+import LikeThread from "../forms/LikeThread";
 
 interface Props {
   id: string;
@@ -43,7 +43,6 @@ async function ThreadCard({
   isComment,
   userId,
 }: Props) {
-  console.log(userId);
 
   return (
     <article
@@ -78,7 +77,7 @@ async function ThreadCard({
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
                 {userId && (
-                  <LinkThread
+                  <LikeThread
                     authorId={author.id.toString()}
                     userId={userId.toString()}
                     likes={likes.map((like) => like.toString())}
@@ -121,13 +120,13 @@ async function ThreadCard({
           </div>
         </div>
 
-        {/* <DeleteThread
-          threadId={JSON.stringify(id)}
+        <DeleteThread
+          threadId={id.toString()}
           currentUserId={currentUserId}
           authorId={author.id}
           parentId={parentId}
           isComment={isComment}
-        /> */}
+        />
       </div>
 
       {!isComment && comments.length > 0 && (

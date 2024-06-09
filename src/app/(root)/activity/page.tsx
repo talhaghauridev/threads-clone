@@ -1,8 +1,8 @@
+import { fetchUser, getActivity } from "@/lib/actions/user.actions";
+import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
-import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { fetchUser, getActivity } from "@/lib/actions/user.actions";
 
 async function page() {
   const user = await currentUser();
@@ -12,7 +12,6 @@ async function page() {
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   const activity = await getActivity(userInfo._id);
-  console.log(activity);
   
   return (
     <>

@@ -6,7 +6,6 @@ import { communityTabs } from "@/constants";
 import { fetchCommunityDetails } from "@/lib/actions/community.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
-import { Metadata } from "next";
 import Image from "next/image";
 type Params = {
   params: {
@@ -19,11 +18,7 @@ const page = async ({ params }: Params) => {
   if (!user) return null;
   const userInfo = await fetchUser(user.id);
   const communityDetails = await fetchCommunityDetails(params.id);
-  // console.log({
-  //   communityDetails,
-  //   userInfo,
-  //   user,
-  // });
+ 
   return (
     <section>
       <ProfileHeader

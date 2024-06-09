@@ -11,15 +11,16 @@ export const metadata: Metadata = {
 
 const page = async () => {
   const user = await currentUser();
+  if (!user) return null;
   const userInfo = await fetchUser(user?.id!);
 
   const userData: User = {
-    id: user?.id!,
-    objectId: userInfo?._id,
-    username: userInfo?.username || user?.username || "",
-    name: userInfo?.name || user?.firstName || "",
-    bio: userInfo?.bio || "",
-    image: userInfo?.image || user?.imageUrl,
+    id: user?.id.toString(),
+    objectId: (userInfo?._id).toString(),
+    username: (userInfo?.username || user?.username || "").toString(),
+    name: (userInfo?.name || user?.firstName || "").toString(),
+    bio: (userInfo?.bio || "").toString(),
+    image: (userInfo?.image || user?.imageUrl).toString(),
   };
 
   return (

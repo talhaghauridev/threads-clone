@@ -1,67 +1,71 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs";
-import { sidebarLinks } from "@/constants";
-import { memo } from "react";
+import UserCard from "../cards/UserCard";
+import { fetchCommunities } from "@/lib/actions/community.actions";
+import { fetchUsers } from "@/lib/actions/user.actions";
+import { currentUser } from "@clerk/nextjs/server";
 
-const RightSidebar = () => {
-  const pathname = usePathname();
+async function RightSidebar() {
+  const user = await currentUser();
+  if (!user) return null;
 
-  const { userId } = useAuth();
+  const similarMinds = await fetchUsers({
+    userId: user.id,
+    pageSize: 4,
+  });
+
+  const suggestedCommunities = await fetchCommunities({ pageSize: 4 });
 
   return (
-    <section className="custom-scrollbar leftsidebar w-[250px]">
-      <div className="flex w-full flex-1 flex-col gap-6 px-6">
-        {/* {sidebarLinks.map((link) => {
-          const isActive =
-            (pathname.includes(link.route) && link.route.length > 1) ||
-            pathname === link.route;
+    <section className="custom-scrollbar rightsidebar">
+      <div className="flex flex-1 flex-col justify-start">
+        <h3 className="text-heading4-medium text-light-1">
+          Suggested Communities
+        </h3>
 
-          if (link.route === "/profile") link.route = `${link.route}/${userId}`;
-
-          return (
-            <Link
-              href={link.route}
-              key={link.label}
-              className={`leftsidebar_link ${isActive && "bg-primary-500 "}`}
-            >
-              <Image
-                src={link.imgURL}
-                alt={link.label}
-                width={24}
-                height={24}
-              />
-
-              <p className="text-light-1 max-lg:hidden">{link.label}</p>
-            </Link>
-          );
-        })} */}
+        <div className="mt-7 flex w-[350px] flex-col gap-9">
+          {suggestedCommunities.communities.length > 0 ? (
+            <>
+              {suggestedCommunities.communities.map((community) => (
+                <UserCard
+                  key={community.id}
+                  id={community.id}
+                  name={community.name}
+                  username={community.username}
+                  imgUrl={community.image}
+                  personType="Community"
+                />
+              ))}
+            </>
+          ) : (
+            <p className="!text-base-regular text-light-3">
+              No communities yet
+            </p>
+          )}
+        </div>
       </div>
 
-      {/* <div className="mt-10 px-6">
-        <SignedIn>
-          <SignOutButton
-            signOutOptions={{
-              redirectUrl: "/sign-in",
-            }}
-          >
-            <div className="flex cursor-pointer gap-4 p-4">
-              <Image
-                src="/assets/logout.svg"
-                alt="logout"
-                width={24}
-                height={24}
-              />
-
-              <p className="text-light-2 max-lg:hidden">Logout</p>
-            </div>
-          </SignOutButton>
-        </SignedIn>
-      </div> */}
+      <div className="flex flex-1 flex-col justify-start">
+        <h3 className="text-heading4-medium text-light-1">Similar Minds</h3>
+        <div className="mt-7 flex w-[350px] flex-col gap-10">
+          {similarMinds.users.length > 0 ? (
+            <>
+              {similarMinds.users.map((person) => (
+                <UserCard
+                  key={person.id}
+                  id={person.id}
+                  name={person.name}
+                  username={person.username}
+                  imgUrl={person.image}
+                  personType="User"
+                />
+              ))}
+            </>
+          ) : (
+            <p className="!text-base-regular text-light-3">No users yet</p>
+          )}
+        </div>
+      </div>
     </section>
   );
-};
+}
 
-export default memo(RightSidebar);
+export default RightSidebar;
