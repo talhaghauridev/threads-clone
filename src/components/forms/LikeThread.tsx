@@ -28,7 +28,6 @@ const LikeThread = ({ userId, threadId, authorId, likes }: LikeThreadProps) => {
     setLoading(false);
   }, [pathname, userId, threadId]);
 
-
   return useMemo(
     () => (
       <>
@@ -71,7 +70,7 @@ const LikeThread = ({ userId, threadId, authorId, likes }: LikeThreadProps) => {
         )}
       </>
     ),
-    [userId, authorId, likes, loading]
+    [userId, likes, loading, addLiked, addUnLiked]
   );
 };
 

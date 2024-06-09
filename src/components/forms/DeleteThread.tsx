@@ -24,14 +24,14 @@ function DeleteThread({
   const pathname = usePathname();
   const router = useRouter();
 
-  if (currentUserId !== authorId || pathname === "/") return null;
-
   const handleDeleteThread = useCallback(async () => {
     await deleteThread(threadId, pathname);
     if (!parentId || !isComment) {
       router.push("/");
     }
   }, [router, threadId, pathname, parentId, isComment]);
+  if (currentUserId !== authorId || pathname === "/") return null;
+
   return (
     <Image
       src="/assets/delete.svg"
