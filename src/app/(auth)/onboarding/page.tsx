@@ -14,13 +14,19 @@ const page = async () => {
   if (!user) return null;
   const userInfo = await fetchUser(user?.id!);
 
+  console.log({ userInfo })
+
+  if (!userInfo) {
+    return <div>User not found</div>
+  }
+
   const userData: User = {
-    id: user?.id.toString(),
-    objectId: (userInfo?._id).toString(),
-    username: (userInfo?.username || user?.username || "").toString(),
-    name: (userInfo?.name || user?.firstName || "").toString(),
-    bio: (userInfo?.bio || "").toString(),
-    image: (userInfo?.image || user?.imageUrl).toString(),
+    id: user?.id?.toString(),
+    objectId: (userInfo?._id)?.toString(),
+    username: (userInfo?.username || user?.username || "")?.toString(),
+    name: (userInfo?.name || user?.firstName || "")?.toString(),
+    bio: (userInfo?.bio || "")?.toString(),
+    image: (userInfo?.image || user?.imageUrl)?.toString(),
   };
 
   return (

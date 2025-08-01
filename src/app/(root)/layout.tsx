@@ -1,7 +1,7 @@
-import Bottombar from "@/components/shared/Bottombar";
+import Bottombar from "@/components/shared/BottomBar";
 import LeftSidebar from "@/components/shared/LeftSidebar";
 import RightSidebar from "@/components/shared/RightSidebar";
-import Topbar from "@/components/shared/Topbar";
+import Topbar from "@/components/shared/TopBar";
 export default function RootLayout({
   children,
 }: {
